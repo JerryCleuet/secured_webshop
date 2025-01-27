@@ -1,9 +1,5 @@
 module.exports = {
-    get: (req, res) => {
-        res.send("User: Jerry Cleuet Test");
-    },
-
-    login:(req, res) => {
-        res.send("Page de connexion");
-    }
+  get: (req, res) => {
+    res.send("Page de l'user quand il est co");
+  },
 };
