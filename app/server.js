@@ -1,15 +1,14 @@
-console.log("démarrage");
-const express = require("express");
+import express from "express";
 const app = express();
-const https = require("https");
-const fs = require("fs");
-const userRoute = require("./routes/User");
-const loginRoute = require("./routes/Login");
+import https from "https";
+import fs from "fs";
+import userRoute from "./routes/User.js";
+import loginRoute from "./routes/Login.js";
+
 const options = {
-  key: fs.readFileSync("private.key"), // Chemin vers ta clé privée
+  key: fs.readFileSync("private.key"),
   cert: fs.readFileSync("certificate.crt"),
 };
-console.log(options.key);
 
 app.use("/account", userRoute);
 app.use("/login", loginRoute);
