@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon Compte</title>
+    <style>
+      /* Styles généraux */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .account-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+
+      .account-container h2 {
+        margin-bottom: 20px;
+      }
+
+      .user-info p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      .logout-btn {
+        width: 100%;
+        padding: 10px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      .logout-btn:hover {
+        background: #a71d2a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="account-container">
+      <h2>Mon Compte</h2>
+      <div class="user-info">
+        <p><strong>Nom :</strong> Nom pris de la BD - à faire</p>
+        <p><strong>Email :</strong> Email pris de la BD - à faire</p>
+      </div>
+      <button class="logout-btn">Se Déconnecter</button>
+    </div>
+  </body>
+</html>

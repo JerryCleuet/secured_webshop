@@ -1,5 +1,7 @@
+const path = require("path");
+
 module.exports = {
-  get: (req, res) => {
-    res.send("Page de l'user quand il est co");
+  account: (req, res) => {
+    res.sendFile(path.join(process.cwd(), "view", "account.html"));
   },
 };
