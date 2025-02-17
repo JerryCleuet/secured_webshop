@@ -1,10 +1,10 @@
 import express from "express";
 
-const router = express.Router();
+const accountRouter = express.Router();
 
-router.get("/account", (req, res) => {
+accountRouter.get("/account", (req, res) => {
     res.sendFile(path.join(process.cwd(), "view", "account.html"));
   });
 
-export { router };
+export { accountRouter };
 

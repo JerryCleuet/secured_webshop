@@ -3,8 +3,13 @@ import https from "https";
 import fs from "fs";
 import { loginRouter } from "./routes/Login.js";
 import path from "path";
+import cors from "cors";
 
 const app = express();
+const port = 3333;
+
+app.use(express.json());
+app.use(cors());
 
 // Options pour le serveur HTTPS
 const options = {
@@ -22,10 +27,14 @@ app.use("/account", (req, res) => {
   res.send("Account page");
 });
 
-app.use("/login", loginRouter);
+app.use("/", loginRouter);
+
+app.use((req, res) => {
+  res.status(404).send("Page not found");
+});
 
 // Démarrage du serveur HTTPS
-https.createServer(options, app).listen(3333, () => {
-  console.log("Serveur HTTPS lancé sur le port 3333");
+https.createServer(options, app).listen(port, () => {
+  console.log("Serveur HTTPS lancé sur le port " + port);
 });
 
