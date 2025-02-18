@@ -1,7 +1,9 @@
 import express from "express";
 import https from "https";
 import fs from "fs";
-import { loginRouter } from "./routes/Login.js";
+import { loginRouter } from "./routes/login.js";
+import { signupRouter } from "./routes/signup.js";
+import { accountRouter } from "./routes/account.js";
 import path from "path";
 import cors from "cors";
 
@@ -21,13 +23,13 @@ const options = {
 const publicPath = path.join(process.cwd(), "app", "public");
 app.use(express.static(publicPath));
 
-
 // Routes
-app.use("/account", (req, res) => {
-  res.send("Account page");
-});
 
 app.use("/", loginRouter);
+
+app.use("/signup", signupRouter);
+
+app.use("/account", accountRouter);
 
 app.use((req, res) => {
   res.status(404).send("Page not found");
@@ -37,4 +39,3 @@ app.use((req, res) => {
 https.createServer(options, app).listen(port, () => {
   console.log("Serveur HTTPS lancé sur le port " + port);
 });
-
