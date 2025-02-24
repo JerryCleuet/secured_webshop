@@ -6,12 +6,14 @@ import { signupRouter } from "./routes/signup.js";
 import { accountRouter } from "./routes/account.js";
 import path from "path";
 import cors from "cors";
+import cookie from "cookie-parser";
 
 const app = express();
-const port = 3333;
+const port = 65535;
 
 app.use(express.json());
 app.use(cors());
+app.use(cookie());
 
 // Options pour le serveur HTTPS
 const options = {

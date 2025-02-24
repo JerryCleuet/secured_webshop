@@ -14,7 +14,7 @@ export const signup = (req, res) => {
     return res.status(400).json({ message: "Tous les champs sont requis." });
   }
   //Vérifie que les deux mdp soient les mêmes
-  if (password !== confirmPassword) {
+  else if (password !== confirmPassword) {
     return res
       .status(400)
       .json({ message: "Les mots de passe ne correspondent pas." });
@@ -29,14 +29,6 @@ export const signup = (req, res) => {
     if (results.length > 0) {
       return res.status(409).json({ message: "Nom d'utilisateur déjà pris." });
     }
-
-    // Hash du mot de passe
-    /*bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-      if (err) {
-        console.error("Erreur lors du hashage du mot de passe:", err);
-        return res.status(500).json({ message: "Erreur serveur." });
-      }
-*/
     // Insertion en base de données
     const insertUserSql =
       "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -44,18 +36,7 @@ export const signup = (req, res) => {
       if (err) {
         console.error("Erreur SQL:", err);
         return res.status(500).json({ message: "Erreur serveur." });
-      }
-
-      // Création du token JWT
-      /*   const token = jwt.sign(
-          { id: results.insertId, role: isAdmin ? "admin" : "user" },
-          SECRET,
-          { expiresIn: "1y" }
-        );
-
-        res
-          .status(201)
-          .json({ message: "Utilisateur créé avec succès.", token }); */
+      } else return res.status(201).json({ message: "Utilisateur créé." });
     });
   });
 };

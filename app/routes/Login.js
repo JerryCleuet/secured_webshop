@@ -8,6 +8,6 @@ loginRouter.get("/", (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "login.html"));
 });
 
-loginRouter.post("/", login);
+loginRouter.post("/login", login);
 
 export { loginRouter };

@@ -54,10 +54,19 @@
     <div class="account-container">
       <h2>Mon Compte</h2>
       <div class="user-info">
-        <p><strong>Nom :</strong> Nom pris de la BD - à faire</p>
-        <p><strong>Email :</strong> Email pris de la BD - à faire</p>
+        <p><strong>Pseudo :</strong> Nom pris de la BD - à faire</p>
       </div>
       <button class="logout-btn">Se Déconnecter</button>
     </div>
   </body>
 </html>
+<script>
+  document.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const response = await fetch("/account", {
+      method: "POST",
+    });
+    window.location.href = "/";
+  });
+</script>
