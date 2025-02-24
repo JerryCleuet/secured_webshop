@@ -9,9 +9,10 @@ import cors from "cors";
 import cookie from "cookie-parser";
 
 const app = express();
-const port = 65535;
+const port = 3333;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Pour les formulaires classiques
 app.use(cors());
 app.use(cookie());
 

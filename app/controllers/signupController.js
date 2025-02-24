@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { connection } from "../db/db.js";
+import { generateSalt } from "../middleware/hashMiddleware.js";
+import { hashPassword } from "../middleware/hashMiddleware.js";
 
 //const SECRET = "123745616345162";
 //const SALT_ROUNDS = 10; // Niveau de sécurité du hash
@@ -29,14 +31,22 @@ export const signup = (req, res) => {
     if (results.length > 0) {
       return res.status(409).json({ message: "Nom d'utilisateur déjà pris." });
     }
+
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(password, salt);
+    console.log("salt :", salt, "hashedPassword :", hashedPassword);
     // Insertion en base de données
     const insertUserSql =
       "INSERT INTO users (username, password) VALUES (?, ?)";
-    connection.query(insertUserSql, [username, password], (err, results) => {
-      if (err) {
-        console.error("Erreur SQL:", err);
-        return res.status(500).json({ message: "Erreur serveur." });
-      } else return res.status(201).json({ message: "Utilisateur créé." });
-    });
+    connection.query(
+      insertUserSql,
+      [username, hashedPassword],
+      (err, results) => {
+        if (err) {
+          console.error("Erreur SQL:", err);
+          return res.status(500).json({ message: "Erreur serveur." });
+        } else return res.status(201).json({ message: "Utilisateur créé." });
+      }
+    );
   });
 };
