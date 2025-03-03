@@ -4,6 +4,7 @@ import fs from "fs";
 import { loginRouter } from "./routes/login.js";
 import { signupRouter } from "./routes/signup.js";
 import { accountRouter } from "./routes/account.js";
+import { adminAccountRouter } from "./routes/account.js";
 import path from "path";
 import cors from "cors";
 import cookie from "cookie-parser";
@@ -28,11 +29,13 @@ app.use(express.static(publicPath));
 
 // Routes
 
-app.use("/", loginRouter);
+app.use("/login", loginRouter);
 
 app.use("/signup", signupRouter);
 
-app.use("/account", accountRouter);
+app.use("/", accountRouter);
+
+app.use("/adminAccount", adminAccountRouter);
 
 app.use((req, res) => {
   res.status(404).send("Page not found");

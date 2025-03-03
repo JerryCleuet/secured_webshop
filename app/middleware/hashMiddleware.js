@@ -1,4 +1,5 @@
-function generateSalt(length) {
+import bcrypt from "bcrypt";
+/*function generateSalt(length) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let salt = "";
@@ -6,10 +7,10 @@ function generateSalt(length) {
     salt += chars[Math.floor(Math.random() * chars.length)];
   }
   return salt;
-}
+}*/
 
-function hashPassword(password, salt) {
-  let hash = 0;
+async function hashPassword(password) {
+  /* let hash = 0;
   const combined = password + salt; //Mélanger le mdp et le sel pour une saveur optimale (2c.c. de sel pour 1c.s. de mdp)
 
   for (let i = 0; i < combined.length; i++) {
@@ -18,6 +19,13 @@ function hashPassword(password, salt) {
     hash = hash * 31 + charCode;
   }
   return Math.abs(hash).toString(16);
+*/
+  try {
+    const hash = await bcrypt.hash(password, 10);
+    return hash;
+  } catch (err) {
+    console.error("Erreur lors du hashage du mot de passe :", err);
+  }
 }
 
-export { generateSalt, hashPassword };
+export { hashPassword };

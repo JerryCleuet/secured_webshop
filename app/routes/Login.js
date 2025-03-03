@@ -1,13 +1,15 @@
 import express from "express";
 import path from "path";
-import { login } from "../controllers/loginController.js";
+import { login, logout } from "../controllers/loginController.js";
 
 const loginRouter = express.Router();
 
 loginRouter.get("/", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "view", "login.html"));
+  res.render(path.join(process.cwd(), "view", "login.ejs"));
 });
 
-loginRouter.post("/login", login);
+loginRouter.post("/sign", login);
+
+loginRouter.post("/logout", logout);
 
 export { loginRouter };

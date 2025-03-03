@@ -54,19 +54,11 @@
     <div class="account-container">
       <h2>Mon Compte</h2>
       <div class="user-info">
-        <p><strong>Pseudo :</strong> Nom pris de la BD - à faire</p>
+        <p><strong>Pseudo :</strong><%=username%></p>
       </div>
-      <button class="logout-btn">Se Déconnecter</button>
+      <form action="/login/logout" method="post">
+        <button type="submit" class="logout-btn">Se Déconnecter</button>
+      </form>
     </div>
   </body>
 </html>
-<script>
-  document.addEventListener("submit", async (event) => {
-    event.preventDefault(); // Empêche le rechargement de la page
-
-    const response = await fetch("/account", {
-      method: "POST",
-    });
-    window.location.href = "/";
-  });
-</script>

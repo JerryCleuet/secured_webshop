@@ -2,16 +2,13 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { connection } from "../db/db.js";
+import exp from "constants";
 
 const SECRET = "123745616345162";
 
 // Connexion utilisateur
 export const login = (req, res) => {
-  console.log(req.body);
   const { username, password } = req.body;
-
-  console.log("username : ", username);
-  console.log("password : ", password);
 
   if (!username || !password) {
     return res.status(400).json({ message: "Tous les champs sont requis." });
@@ -29,20 +26,42 @@ export const login = (req, res) => {
         .json({ message: "Mot de passe ou utilisateur incorrect." });
 
     const user = results[0];
-    if (password !== user.password) {
-      return res
-        .status(401)
-        .json({ message: "Mot de passe ou utilisateur incorrect." });
-    }
-    /*const token = jwt.sign({ id: user.id, role: user.role }, SECRET, {
-      expiresIn: "1y",
+
+    console.log("user", user.password);
+
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (result) {
+        const token = jwt.sign(
+          { id: user.id, role: user.role, username: user.username },
+          SECRET,
+          {
+            expiresIn: "1h",
+          }
+        );
+        res.cookie("Token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        });
+        res.cookie("username", user.username, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        });
+        console.log("token", token);
+
+        return res.redirect("/");
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Mot de passe ou utilisateur incorrect." });
+      }
     });
-    res.cookie({ token });
-    res.json({ message: "Connexion réussie", token });*/
   });
 };
 
 export const logout = (req, res) => {
+  console.log("aa");
   res.clearCookie("token");
   res.json({ message: "Déconnexion réussie" });
 };

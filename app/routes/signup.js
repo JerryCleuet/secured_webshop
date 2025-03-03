@@ -5,7 +5,7 @@ import { signup } from "../controllers/signupController.js";
 const signupRouter = express.Router();
 
 signupRouter.get("/", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "view", "signup.html"));
+  res.render(path.join(process.cwd(), "view", "signup.ejs"));
 });
 
 signupRouter.post("/", signup);
