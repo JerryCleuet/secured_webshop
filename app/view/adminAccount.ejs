@@ -66,41 +66,35 @@
   <body>
     <div class="container">
       <div class="admin-info">
-        <h2>Admin: John Doe</h2>
-        <p>Email: admin@example.com</p>
+        <h2>Admin:</h2>
       </div>
 
+      <!-- Formulaire de recherche -->
       <div class="search-box">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Rechercher un utilisateur..."
-          onkeyup="filterUsers()"
-        />
+        <form method="GET" action="/adminAccount">
+          <input
+            type="text"
+            name="searchTerm"
+            value="<%= searchTerm %>"
+            placeholder="Rechercher un utilisateur..."
+          />
+          <button type="submit">Rechercher</button>
+        </form>
       </div>
 
-      <ul class="user-list" id="userList">
-        <li>Jean Dupont</li>
-        <li>Marie Curie</li>
-        <li>Louis Pasteur</li>
-        <li>Claude Monet</li>
-        <li>Émile Zola</li>
+      <!-- Liste des utilisateurs -->
+      <ul class="user-list">
+        <% if (users.length > 0) { %> <% users.forEach(function(user) { %>
+        <li><%= user.username %></li>
+        <% }); %> <% } else { %>
+        <li>Aucun utilisateur trouvé.</li>
+        <% } %>
       </ul>
+
+      <!-- Bouton de déconnexion -->
+      <div class="logout-btn">
+        <a href="/adminAccount/logout">Déconnexion</a>
+      </div>
     </div>
-
-    <script>
-      function filterUsers() {
-        let input = document.getElementById("searchInput").value.toLowerCase();
-        let users = document.querySelectorAll(".user-list li");
-
-        users.forEach((user) => {
-          if (user.textContent.toLowerCase().includes(input)) {
-            user.style.display = "block";
-          } else {
-            user.style.display = "none";
-          }
-        });
-      }
-    </script>
   </body>
 </html>

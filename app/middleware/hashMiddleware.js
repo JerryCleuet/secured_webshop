@@ -11,11 +11,11 @@ import bcrypt from "bcrypt";
 
 async function hashPassword(password) {
   /* let hash = 0;
-  const combined = password + salt; //Mélanger le mdp et le sel pour une saveur optimale (2c.c. de sel pour 1c.s. de mdp)
+  const combined = password + salt; //Mélanger le mdp et le sel pour une saveur optimale
 
   for (let i = 0; i < combined.length; i++) {
     //Mélanger à l'aide d'une spatule en bois
-    const charCode = combined.charCodeAt(i); //Faire cuire le tout à 120° pendant 30minutes
+    const charCode = combined.charCodeAt(i);
     hash = hash * 31 + charCode;
   }
   return Math.abs(hash).toString(16);

@@ -22,7 +22,7 @@ export const signup = (req, res) => {
       .json({ message: "Les mots de passe ne correspondent pas." });
   }
   // Vérifier si l'utilisateur existe déjà
-  const checkUserSql = "SELECT id FROM users WHERE username = ?";
+  const checkUserSql = "SELECT id FROM t_user WHERE username = ?";
   connection.query(checkUserSql, [username], (err, results) => {
     if (err) {
       console.error("Erreur SQL:", err);
@@ -37,7 +37,7 @@ export const signup = (req, res) => {
       console.log(/*"salt :", salt,*/ "hashedPassword :", hashedPassword);
       // Insertion en base de données
       const insertUserSql =
-        "INSERT INTO users (username, password) VALUES (?, ?)";
+        "INSERT INTO t_user (username, password) VALUES (?, ?)";
       connection.query(
         insertUserSql,
         [username, hashedPassword],

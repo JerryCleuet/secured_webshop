@@ -8,6 +8,8 @@ import { adminAccountRouter } from "./routes/account.js";
 import path from "path";
 import cors from "cors";
 import cookie from "cookie-parser";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const port = 3333;
@@ -24,8 +26,11 @@ const options = {
 };
 
 // Utiliser express.static pour servir les fichiers statiques du dossier public
-const publicPath = path.join(process.cwd(), "app", "public");
+const publicPath = path.join(process.cwd(), "app", "view");
 app.use(express.static(publicPath));
+
+app.set("views", path.join(process.cwd(), "app", "view"));
+app.set("view engine", "ejs");
 
 // Routes
 
