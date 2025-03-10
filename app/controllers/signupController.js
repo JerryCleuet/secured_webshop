@@ -1,53 +1,53 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { connection } from "../db/db.js";
-//import { generateSalt } from "../middleware/hashMiddleware.js";
-import { hashPassword } from "../middleware/hashMiddleware.js";
-
-//const SECRET = "123745616345162";
-//const SALT_ROUNDS = 10; // Niveau de sécurité du hash
-
-// Inscription utilisateur
-export const signup = (req, res) => {
+import { generateSalt, hashPassword } from "../middleware/hashMiddleware.js";
+let manualHashChoice = false;
+export const signup = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
-  // Vérification des champs
-  if (!username || !password) {
+  if (!username || !password || !confirmPassword) {
     return res.status(400).json({ message: "Tous les champs sont requis." });
   }
-  //Vérifie que les deux mdp soient les mêmes
-  else if (password !== confirmPassword) {
+
+  if (password !== confirmPassword) {
     return res
       .status(400)
       .json({ message: "Les mots de passe ne correspondent pas." });
   }
-  // Vérifier si l'utilisateur existe déjà
+
   const checkUserSql = "SELECT id FROM t_user WHERE username = ?";
-  connection.query(checkUserSql, [username], (err, results) => {
+  connection.query(checkUserSql, [username], async (err, results) => {
     if (err) {
       console.error("Erreur SQL:", err);
       return res.status(500).json({ message: "Erreur serveur." });
     }
+
     if (results.length > 0) {
       return res.status(409).json({ message: "Nom d'utilisateur déjà pris." });
     }
 
-    //const salt = generateSalt();
-    hashPassword(password).then((hashedPassword) => {
-      console.log(/*"salt :", salt,*/ "hashedPassword :", hashedPassword);
-      // Insertion en base de données
-      const insertUserSql =
-        "INSERT INTO t_user (username, password) VALUES (?, ?)";
-      connection.query(
-        insertUserSql,
-        [username, hashedPassword],
-        (err, results) => {
-          if (err) {
-            console.error("Erreur SQL:", err);
-            return res.status(500).json({ message: "Erreur serveur." });
-          } else return res.redirect("/login");
-        }
-      );
+    let hashedPassword;
+
+    if (manualHashChoice) {
+      const salt = generateSalt(10);
+      hashedPassword = hashPassword(password, salt);
+    } else {
+      try {
+        hashedPassword = await bcrypt.hash(password, 10);
+      } catch (err) {
+        console.error("Erreur lors du hashage bcrypt:", err);
+        return res.status(500).json({ message: "Erreur serveur." });
+      }
+    }
+
+    const insertUserSql =
+      "INSERT INTO t_user (username, password) VALUES (?, ?)";
+    connection.query(insertUserSql, [username, hashedPassword], (err) => {
+      if (err) {
+        console.error("Erreur SQL:", err);
+        return res.status(500).json({ message: "Erreur serveur." });
+      }
+      return res.redirect("/login");
     });
   });
 };

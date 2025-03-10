@@ -14,7 +14,6 @@ const getUsers = (req, res) => {
     if (err) {
       return res.status(500).send("Erreur serveur");
     }
-    // Rendu de la vue avec les utilisateurs et le terme de recherche
     res.render("adminAccount.ejs", {
       users: results,
       searchTerm: searchTerm || "",

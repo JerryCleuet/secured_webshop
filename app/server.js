@@ -12,7 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = 3333;
+const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Pour les formulaires classiques
@@ -28,9 +28,6 @@ const options = {
 // Utiliser express.static pour servir les fichiers statiques du dossier public
 const publicPath = path.join(process.cwd(), "app", "view");
 app.use(express.static(publicPath));
-
-app.set("views", path.join(process.cwd(), "app", "view"));
-app.set("view engine", "ejs");
 
 // Routes
 

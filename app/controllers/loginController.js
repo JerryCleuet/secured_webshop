@@ -25,7 +25,7 @@ export const login = (req, res) => {
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         const token = jwt.sign(
-          { id: user.id, isAdmin: user.isAdmin, username: user.username }, // Utilise isAdmin directement
+          { id: user.id, isAdmin: user.isAdmin, username: user.username },
           process.env.JWT_SECRET,
           {
             expiresIn: "1h",
