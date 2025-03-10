@@ -66,16 +66,15 @@
   <body>
     <div class="container">
       <div class="admin-info">
-        <h2>Admin:</h2>
+        <h2>Admin:<%=username%></h2>
       </div>
 
       <!-- Formulaire de recherche -->
       <div class="search-box">
-        <form method="GET" action="/adminAccount">
+        <form method="POST" action="/adminAccount/search">
           <input
             type="text"
-            name="searchTerm"
-            value="<%= searchTerm %>"
+            name="search"
             placeholder="Rechercher un utilisateur..."
           />
           <button type="submit">Rechercher</button>
@@ -83,18 +82,17 @@
       </div>
 
       <!-- Liste des utilisateurs -->
-      <ul class="user-list">
-        <% if (users.length > 0) { %> <% users.forEach(function(user) { %>
-        <li><%= user.username %></li>
-        <% }); %> <% } else { %>
-        <li>Aucun utilisateur trouvé.</li>
-        <% } %>
-      </ul>
+      <% users.forEach(user => { %>
+      <div>
+        <p><%= user.username %></p>
+        <!-- Affiche chaque username -->
+      </div>
+      <% }) %>
 
       <!-- Bouton de déconnexion -->
-      <div class="logout-btn">
-        <a href="/adminAccount/logout">Déconnexion</a>
-      </div>
+      <form action="/login/logout" method="post">
+        <button type="submit" class="logout-btn">Se Déconnecter</button>
+      </form>
     </div>
   </body>
 </html>

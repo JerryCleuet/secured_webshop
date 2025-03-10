@@ -42,12 +42,11 @@ export const login = (req, res) => {
           sameSite: "none",
         });
 
-        // Redirection basée sur isAdmin
         if (user.isAdmin === 1) {
           return res.redirect("/adminAccount");
         }
 
-        return res.redirect("/"); // Redirection vers la page compte utilisateur
+        return res.redirect("/");
       } else {
         return res
           .status(401)
@@ -72,5 +71,5 @@ export const logout = (req, res) => {
   });
 
   // Réponse de déconnexion avec redirection
-  res.status(200).json({ message: "Déconnexion réussie", redirect: "/login" });
+  res.redirect("/login");
 };

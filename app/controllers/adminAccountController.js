@@ -1,24 +1,21 @@
 import { connection } from "../db/db.js";
 
-const getUsers = (req, res) => {
-  const { searchTerm } = req.query;
-  let sql = "SELECT * FROM t_user";
-  let queryParams = [];
+export default function getUsers(searchTerm) {
+  return new Promise((resolve, reject) => {
+    let sql = "SELECT * FROM t_user";
+    let queryParams = [];
 
-  if (searchTerm) {
-    sql += " WHERE username LIKE ?";
-    queryParams.push(`%${searchTerm}%`);
-  }
-
-  connection.query(sql, queryParams, (err, results) => {
-    if (err) {
-      return res.status(500).send("Erreur serveur");
+    if (searchTerm) {
+      sql += " WHERE username LIKE ?";
+      queryParams.push(`%${searchTerm}%`);
     }
-    res.render("adminAccount.ejs", {
-      users: results,
-      searchTerm: searchTerm || "",
+
+    connection.query(sql, queryParams, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
     });
   });
-};
-
-export { getUsers };
+}

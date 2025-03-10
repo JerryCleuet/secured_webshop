@@ -8,7 +8,7 @@ function generateSalt(length) {
   return salt;
 }
 
-async function hashPassword(password, salt) {
+function hashPassword(password, salt) {
   let hash = 1;
   const combined = password + salt;
 

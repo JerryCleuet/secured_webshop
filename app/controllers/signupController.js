@@ -1,7 +1,10 @@
 import bcrypt from "bcrypt";
 import { connection } from "../db/db.js";
 import { generateSalt, hashPassword } from "../middleware/hashMiddleware.js";
+
+// Variable pour choisir entre hashage manuel ou bcrypt
 let manualHashChoice = false;
+
 export const signup = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -42,6 +45,7 @@ export const signup = async (req, res) => {
 
     const insertUserSql =
       "INSERT INTO t_user (username, password) VALUES (?, ?)";
+    console.log(hashedPassword);
     connection.query(insertUserSql, [username, hashedPassword], (err) => {
       if (err) {
         console.error("Erreur SQL:", err);
