@@ -2,9 +2,10 @@ import bcrypt from "bcrypt";
 import { connection } from "../db/db.js";
 import { generateSalt, hashPassword } from "../middleware/hashMiddleware.js";
 
-// Variable pour choisir entre hashage manuel ou bcrypt
+// Variable pour choisir entre hashage maison ou bcrypt
 let manualHashChoice = false;
 
+//Signup utilisateur
 export const signup = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -18,6 +19,7 @@ export const signup = async (req, res) => {
       .json({ message: "Les mots de passe ne correspondent pas." });
   }
 
+  // Vérifier si le nom d'utilisateur est déjà pris
   const checkUserSql = "SELECT id FROM t_user WHERE username = ?";
   connection.query(checkUserSql, [username], async (err, results) => {
     if (err) {
@@ -29,8 +31,10 @@ export const signup = async (req, res) => {
       return res.status(409).json({ message: "Nom d'utilisateur déjà pris." });
     }
 
+    // Définition de la variable hashedPassword en dehors des boucles pour pouvoir choisir entre les méthodes de hachage
     let hashedPassword;
 
+    // Possibilité de hasher le mdp avec une méthode faite maison au lieu de bcrypt
     if (manualHashChoice) {
       const salt = generateSalt(10);
       hashedPassword = hashPassword(password, salt);
@@ -43,6 +47,7 @@ export const signup = async (req, res) => {
       }
     }
 
+    //Insérer les données dans la BD
     const insertUserSql =
       "INSERT INTO t_user (username, password) VALUES (?, ?)";
     console.log(hashedPassword);

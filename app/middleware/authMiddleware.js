@@ -1,4 +1,3 @@
-// authMiddleware.js
 import jwt from "jsonwebtoken";
 
 // Middleware pour vérifier la présence et la validité du token JWT
@@ -8,9 +7,10 @@ const authMiddleware = (req, res, next) => {
 
   // Si le token n'est pas présent, on retourne une erreur
   if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Accès non autorisé. Veuillez vous connecter." });
+    return res.status(401).json({
+      message:
+        "Accès non autorisé. Veuillez vous connecter sur la page /login.",
+    });
   }
   try {
     // Vérifier et décoder le token

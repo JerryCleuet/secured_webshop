@@ -33,7 +33,7 @@ adminAccountRouter.get(
   }
 );
 
-//Route pour afficher les utilisateurs
+//Route pour afficher la liste des utilisateurs
 adminAccountRouter.post(
   "/search",
   authMiddleware,

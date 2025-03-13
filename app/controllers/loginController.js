@@ -21,6 +21,7 @@ export const login = (req, res) => {
         .status(401)
         .json({ message: "Mot de passe ou utilisateur incorrect." });
 
+    //Comparaison du mot de passe avec bcrypt
     const user = results[0];
     bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
@@ -31,17 +32,20 @@ export const login = (req, res) => {
             expiresIn: "1h",
           }
         );
+        // Envoie le token aux cookies
         res.cookie("Token", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
+        // Envoie le username aux cookies
         res.cookie("username", user.username, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
         });
 
+        //redirige sur la page admin si l'utilisateur loggé a la valeur 1 pour isAdmin
         if (user.isAdmin === 1) {
           return res.redirect("/adminAccount");
         }
@@ -56,6 +60,7 @@ export const login = (req, res) => {
   });
 };
 
+//Déconnexion utilisateur
 export const logout = (req, res) => {
   // Supprimer les cookies "Token" et "username"
   res.clearCookie("Token", {
@@ -64,6 +69,7 @@ export const logout = (req, res) => {
     sameSite: "none", // Assurez-vous que sameSite est le même que lors de la création du cookie
   });
 
+  //Efface ce qu'il y a dans les cookies
   res.clearCookie("username", {
     httpOnly: true,
     secure: true, // Assurez-vous que secure est défini comme dans la création du cookie
